@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slideshow</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #slideshow-container {
+            position: relative;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .mySlides {
+            display: none;
+            width: 100%;
+            height: auto;
+        }
+
+        #startStopButton, #prevButton, #nextButton {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #slideCounter {
+            margin-top: 10px;
+        }
+        button{
+            margin-left: 5px;
+            border-radius: 4px;
+            border: 5px solid rgba(11, 11, 11, 0.137) ;
+            color: rgb(12, 12, 12);
+        }
+    </style>
+</head>
+<body>
+    <marquee>
+        DIVYANSHU SINGH CHANDEL
+    </marquee>
+    <div id="slideshow-container">
+        <!-- Images will be dynamically loaded here -->
+    </div>
+
+    <button id="startStopButton" onclick="toggleSlideshow()">Start Slideshow</button>
+    <button id="prevButton" onclick="prevSlide()">Previous</button>
+    <button id="nextButton" onclick="nextSlide()">Next</button>
+
+    <div id="slideCounter">Slide <span id="currentSlide">1</span> of <span id="totalSlides">0</span></div>
+
+    <script>
+        const imageUrls = [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRVmTBH6KDVxxo_wMdoJBSIk7TJEdjZQgVBO0WXbQK2A&s",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn1jxAv2jEZPXG-q7vcjAGLMjmhfMUBYLhIM_6ce2DqmuB3q47PhGAkwXmRlK7l62an-Q&usqp=CAU",
+            // Add more image URLs as needed
+        ];
+
+        let slideIndex = 0;
+        let slideshowInterval;
+
+        function showSlides() {
+            const slides = document.getElementsByClassName("mySlides");
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+
+            slides[slideIndex - 1].style.display = "block";
+            document.getElementById('currentSlide').textContent = slideIndex;
+        }
+
+        function toggleSlideshow() {
+            if (slideshowInterval) {
+                clearInterval(slideshowInterval);
+                slideshowInterval = null;
+                document.getElementById('startStopButton').textContent = "Start Slideshow";
+            } else {
+                createSlides();
+                slideshowInterval = setInterval(showSlides, 2000);
+                document.getElementById('startStopButton').textContent = "Stop Slideshow";
+            }
+        }
+
+        function prevSlide() {
+            pauseSlideshow();
+            showSlides(slideIndex -= 2);
+        }
+
+        function nextSlide() {
+            pauseSlideshow();
+            showSlides();
+        }
+
+        function pauseSlideshow() {
+            if (slideshowInterval) {
+                clearInterval(slideshowInterval);
+                slideshowInterval = null;
+                document.getElementById('startStopButton').textContent = "Start Slideshow";
+            }
+        }
+
+        function createSlides() {
+            const slideshowContainer = document.getElementById("slideshow-container");
+            slideshowContainer.innerHTML = "";
+
+            for (let i = 0; i < imageUrls.length; i++) {
+                const slide = document.createElement("div");
+                slide.className = "mySlides";
+                slide.innerHTML = `<img src="${imageUrls[i]}" alt="Slide ${i + 1}">`;
+                slideshowContainer.appendChild(slide);
+            }
+
+            document.getElementById('totalSlides').textContent = imageUrls.length;
+        }
+
+        // Start slideshow automatically when the page loads
+        window.onload = toggleSlideshow;
+    </script>
+</body>
+</html>

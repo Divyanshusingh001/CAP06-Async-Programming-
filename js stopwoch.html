@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #timer {
+            text-shadow: 2px 4px 8px black;
+            color: red;
+            font-size: 35px;
+            margin-bottom: 20px;
+        }
+        #timer:hover{
+            color: black;
+            text-shadow:2px 4px 7px red ;
+        }
+
+        #buttons {
+            font-size: larger;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        button{
+            box-shadow: rgba(181, 90, 90, 0.911) 0px 5px 15px;
+            text-shadow: 2px 3px 4px rgb(255, 0, 251);
+            color: white;
+            background-color: black;
+        }
+
+        button:hover{
+            color: black;
+            background-color: azure;
+            box-shadow: rgba(115, 6, 6, 0.911) 0px 5px 15px;
+            text-shadow: 2px 3px 4px rgb(255, 0, 251);
+        }
+    </style>
+</head>
+<body>
+    <marquee>
+    DIVYANSHU SINGH CHANDEL
+</marquee>
+    <div id="timer">00:00:00</div>
+    <div id="buttons">
+        <button onclick="startStopwatch()">Start</button>
+        <button onclick="pauseStopwatch()">Pause</button>
+        <button onclick="resetStopwatch()">Reset</button>
+    </div>
+
+    <script>
+        let timerInterval;
+        let seconds = 0;
+
+        function startStopwatch() {
+            if (!timerInterval) {
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+        }
+
+        function pauseStopwatch() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        function resetStopwatch() {
+            pauseStopwatch();
+            seconds = 0;
+            updateTimer();
+        }
+
+        function updateTimer() {
+            seconds++;
+            const formattedTime = formatTime(seconds);
+            document.getElementById('timer').textContent = formattedTime;
+        }
+
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainingSeconds = seconds % 60;
+
+            const formattedHours = hours > 0 ? padZero(hours) + ':' : '';
+            const formattedMinutes = minutes > 0 ? padZero(minutes) + ':' : '';
+            const formattedSeconds = padZero(remainingSeconds);
+
+            return formattedHours + formattedMinutes + formattedSeconds;
+        }
+
+        function padZero(value) {
+            return value < 10 ? '0' + value : value;
+        }
+    </script>
+</body>
+</html>
